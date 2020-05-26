@@ -1,24 +1,16 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import ScheduleEvent from './component/ScheduleEvent'
+// event object contains : 
+//      dateStr : 2020-05-15
+//      date: Fri May 15 2020 00:00:00 GMT-0500 (Central Daylight Time)
+//      allDay: true 
 
 function App() {
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-            React app 
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+       <ScheduleEvent />
     </div>
   );
 }
