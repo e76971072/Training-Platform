@@ -13,7 +13,9 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import  './ScheduleEvent.css'
 
 
 // styles for elements in the schedule page
@@ -50,11 +52,26 @@ const  daysOfWeek = {
     const [titleName, setTitle] = React.useState('');
     const [location, setLocation] = React.useState('');
     const [events, setEvents] = React.useState ([]); // holding set of events 
+    const [age, setAge] = React.useState('');
+    const [openSelect, setOpenSelect] = React.useState(false);
 
    
+    const handleCloseSelect = () => {
+        setOpenSelect(false);
+      };
+    
+    const handleOpenSelect = () => {
+        setOpenSelect(true);
+      };
+
     const handleClickOpen = (e) => {
         setOpen(true);
      };
+
+    const handleChangeSelect = (event) => {
+        setAge(event.target.value);
+    };
+    
 
      function handleClose (e) {
         setOpen(false);
@@ -81,7 +98,7 @@ const  daysOfWeek = {
             ...events,
             {
                title:  titleName,
-               start:  dateInput+"T"+timeInput, 
+               start:  new Date (dateInput + "T" + timeInput), 
                editable	: true, 
                color: 'rgb(200,235,253)', 
                textColor: 'black', 
@@ -164,6 +181,7 @@ const  daysOfWeek = {
                         step: 300, // 5 min
                         }}
                     />
+
                     <TextField
                         autoFocus
                         margin="dense"
@@ -173,6 +191,22 @@ const  daysOfWeek = {
                         onChange = {handleLocation}
                         fullWidth
                     />
+                    {/* <Select
+                            labelId="demo-controlled-open-select-label"
+                            id="demo-controlled-open-select"
+                            open={openSelect}
+                            onClose={handleCloseSelect}
+                            onOpen={handleOpenSelect}
+                            value={age}
+                            onChange={handleChangeSelect}
+                            >
+                            <MenuItem value="">
+                                <em>None</em>
+                            </MenuItem>
+                            <MenuItem value={10}>Ten</MenuItem>
+                            <MenuItem value={20}>Twenty</MenuItem>
+                            <MenuItem value={30}>Thirty</MenuItem>
+                    </Select> */}
                     </DialogContent>
                     <DialogActions>
                     <Button onClick={handleClose} color="primary">
