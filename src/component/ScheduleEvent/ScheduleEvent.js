@@ -98,7 +98,7 @@ const  daysOfWeek = {
             ...events,
             {
                title:  titleName,
-               start:  new Date (dateInput + "T" + timeInput), 
+               date:  new Date (dateInput + "T" + timeInput), 
                editable	: true, 
                color: 'rgb(200,235,253)', 
                textColor: 'black', 
