@@ -70,7 +70,7 @@ export default function Subscribe () {
         name: nameUser,
         email: emailUser, 
     };
-    axios.post('http://localhost:5000/subscribe', body)
+    axios.post('/subscribe', body)
             .then(function (response) {
               if (response.status == 2000 ) {
                 console.log(response.data);
