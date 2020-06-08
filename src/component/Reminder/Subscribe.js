@@ -12,6 +12,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import axios from 'axios'; 
 
 function Copyright() {
   return (
@@ -57,13 +58,35 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Subscribe () {
-  const  [name, setName] = React.useState ('')
-  const  [email, setEmail] = React.useState ('')
+  const  [nameUser, setName] = React.useState ('')
+  const  [emailUser, setEmail] = React.useState ('')
+
+
+
+  // request and response from user subscribe 
   const handleSubmit =  (e) => {
-  }
+    e.preventDefault(); 
+    var body = {
+        name: nameUser,
+        email: emailUser, 
+    };
+    axios.post('http://localhost:5000/subscribe', body)
+            .then(function (response) {
+              if (response.status == 2000 ) {
+                console.log(response.data);
+              }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
+  // email handle onchange
   const handleEmail = (e) => {
     setEmail (e.currentTarget.value); 
   }
+
+  // name handle on change
   const handleName = (e) => {
     setName(e.currentTarget.value); 
   }
@@ -97,13 +120,13 @@ export default function Subscribe () {
             margin="normal"
             required
             fullWidth
-            id="email"
-            label="Email Address"
             name="email"
-            autoComplete="email"
-            onnChange = {handleEmail}
-            autoFocus
-          />
+            label="Email"
+            type="text"
+            id="email"
+            onChange= {handleEmail}
+            // autoComplete="current-password"
+          /> 
          
           {/* <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
