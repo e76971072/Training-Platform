@@ -1,7 +1,7 @@
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from "@fullcalendar/timegrid";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import "@fullcalendar/core/main.css";
 import "@fullcalendar/daygrid/main.css";
 import "@fullcalendar/timegrid/main.css";
@@ -15,7 +15,10 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import axios from 'axios'; 
+
 import  './ScheduleEvent.css'
+import { recomposeColor } from '@material-ui/core';
 
 
 // styles for elements in the schedule page
@@ -54,7 +57,7 @@ const  daysOfWeek = {
     const [events, setEvents] = React.useState ([]); // holding set of events 
     const [age, setAge] = React.useState('');
     const [openSelect, setOpenSelect] = React.useState(false);
-
+    const  [userId, setUserId] = React.useState(0); 
    
     const handleCloseSelect = () => {
         setOpenSelect(false);
@@ -93,20 +96,61 @@ const  daysOfWeek = {
     const handleEvent = (e) => {
 
     }
-    const addEvent  = () => {
+    const addEvent  = (e) => {
         setEvents([
             ...events,
-            {
-               title:  titleName,
-               date:  new Date (dateInput + "T" + timeInput), 
+            {  
+               
+               title:  titleName, 
+               start:  dateInput+"T"+timeInput, 
                editable	: true, 
-               color: 'rgb(200,235,253)', 
-               textColor: 'black', 
+               textColor: 'white', 
                eventLimit: true,
             }
           ]);
-          console.log (events)
+    console.log (events)
+    e.preventDefault(); 
+    var body = {
+        date: dateInput, 
+        title:  titleName,
+        start:  dateInput+"T"+timeInput, 
+        editable	: true, 
+        textColor: 'white', 
+        eventLimit: true,
     }
+    axios.post('https://performance-backend.herokuapp.com/addEvent', body)
+            .then(function (response) {
+              if (response.status == 2000 ) {    // status ok 
+                console.log(response.data);
+              }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+    }
+
+   
+
+    useEffect(() => {
+        // Update the document title using the browser API
+        fetAPI(); 
+    }, []);
+
+    const fetAPI  = () => {
+        setEvents([])
+        axios.post('https://performance-backend.herokuapp.com/getEvents')
+        .then(function (response) { 
+            response.data.map ((value ) => {
+                value.start = new Date (value.start._seconds *1000 ); 
+            })
+            setEvents (response.data)
+        })
+    }; 
+
+// converting  from Firebase timestamp  to human readable is new Date (response.date.start._seconds * 1000 )
+
+    
 
     return (
         <div 

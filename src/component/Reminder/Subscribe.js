@@ -20,7 +20,7 @@ function Copyright() {
       {'Copyright © '}
       <Link color="inherit" href="https://material-ui.com/">
         Kevin Nguyen
-      </Link>{' '}
+      </Link>{' '} 
       {new Date().getFullYear()}
       {'.'}
     </Typography>
@@ -70,9 +70,9 @@ export default function Subscribe () {
         name: nameUser,
         email: emailUser, 
     };
-    axios.post('/subscribe', body)
+    axios.post('https://performance-backend.herokuapp.com/subscribe', body)
             .then(function (response) {
-              if (response.status == 2000 ) {
+              if (response.status == 2000 ) {    // status ok 
                 console.log(response.data);
               }
             })
@@ -80,7 +80,6 @@ export default function Subscribe () {
                 console.log(error);
             });
     }
-
   // email handle onchange
   const handleEmail = (e) => {
     setEmail (e.currentTarget.value); 
